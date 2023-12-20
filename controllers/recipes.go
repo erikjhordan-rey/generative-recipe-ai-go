@@ -7,6 +7,8 @@ import (
 
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"example/gemini-recipes/models"
 	"example/gemini-recipes/services"
@@ -24,13 +26,18 @@ func HealthCheck(c *gin.Context) {
 }
 
 func GetRecipe(c *gin.Context) {
-	resp := services.GenerateRecipe(nil)
+
+	imageBytes, err := os.ReadFile(filepath.Join("assets", "pizza.jpeg"))
+	if err != nil {
+		log.Fatal("error reading image: ", err)
+	}
+	resp := services.AnalyzeFoodImage(imageBytes)
 	if resp == nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": resp})
 	}
 
 	var recipe models.Recipe
-	if err := json.Unmarshal([]byte(fmt.Sprintf("%+v", resp)), &recipe); err != nil { // Parse []byte to go struct pointer
+	if err := json.Unmarshal([]byte(fmt.Sprintf("%+v", resp)), &recipe); err != nil { 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -38,54 +45,42 @@ func GetRecipe(c *gin.Context) {
 	c.JSON(http.StatusOK, recipe)
 }
 
-func CreateRecipe(c *gin.Context) {
+func GenerateRecipe(c *gin.Context) {
 	var imageUrl FoodImageUrlInput
 	if error := c.ShouldBindJSON(&imageUrl); error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": error.Error()})
 		return
 	}
 
-	imageBytes, err := loadImageFromURL(imageUrl.Image)
+	imageBytes, err := getImageBytes(imageUrl.Image)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	resp := services.GenerateRecipe(imageBytes)
+	resp := services.AnalyzeFoodImage(imageBytes)
 	if resp == nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": resp})
 	}
 
 	var recipe models.Recipe
-	if err := json.Unmarshal([]byte(fmt.Sprintf("%+v", resp)), &recipe); err != nil { // Parse []byte to go struct pointer
+	if err := json.Unmarshal([]byte(fmt.Sprintf("%+v", resp)), &recipe); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, recipe)
-
-	//c.JSON(http.StatusOK, gin.H{"status": "success", "message": imageUrl.Image})
 }
 
-func loadImageFromURL(URL string) ([]byte, error) {
-
+func getImageBytes(URL string) ([]byte, error) {
 	response, err := http.Get(URL)
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
 
-	//  img, _, err := image.Decode(response.Body)
-	//  if err != nil {
-	//	return nil, err
-	// }
-
-	imageData, err := io.ReadAll(response.Body)
+	imageBytes, err := io.ReadAll(response.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Encode the image data as a base64 string.
-	//imageBase64 := base64.StdEncoding.EncodeToString(imageData)
-
-	return imageData, nil
+	return imageBytes, nil
 }

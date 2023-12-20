@@ -9,7 +9,7 @@ import (
 func main() {
 	router := gin.Default()
 	router.GET("/healthcheck", controllers.HealthCheck)
+	router.POST("/recipes", controllers.GenerateRecipe)
 	router.GET("/recipes", controllers.GetRecipe)
-	router.POST("/recipes", controllers.CreateRecipe)
 	router.Run()
 }
