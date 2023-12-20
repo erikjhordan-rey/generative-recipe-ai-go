@@ -54,17 +54,17 @@ Sample to analyze food images using [Google Generative AI models](https://cloud.
 
 Google Generative AI
 --------------------------
-[Google AI](https://ai.google/)
-[Generative AI Overview](https://ai.google/discover/generativeai/)
-[Introduction to Generative AI](https://www.cloudskillsboost.google/course_templates/536)
-[Google AI for Developers](https://ai.google.dev/)
-[Google AI Go SDK](https://github.com/google/generative-ai-go)
-[Introducing Gemini](https://blog.google/technology/ai/google-gemini-ai/#sundar-note)
-[Google AI versus Vertex AI differences](https://cloud.google.com/vertex-ai/docs/generative-ai/migrate/migrate-google-ai#google-ai)
-[Go Genai](https://pkg.go.dev/github.com/google/generative-ai-go/genai#pkg-examples)
-[Vertex AI](https://cloud.google.com/vertex-ai?hl=en)
-[Duet AI](https://cloud.google.com/duet-ai?hl=en)
-[Bard](https://bard.google.com/chat)
+- [Google AI](https://ai.google/)
+- [Generative AI Overview](https://ai.google/discover/generativeai/)
+- [Introduction to Generative AI](https://www.cloudskillsboost.google/course_templates/536)
+- [Google AI for Developers](https://ai.google.dev/)
+- [Google AI Go SDK](https://github.com/google/generative-ai-go)
+- [Introducing Gemini](https://blog.google/technology/ai/google-gemini-ai/#sundar-note)
+- [Google AI versus Vertex AI differences](https://cloud.google.com/vertex-ai/docs/generative-ai/migrate/migrate-google-ai#google-ai)
+- [Go Genai](https://pkg.go.dev/github.com/google/generative-ai-go/genai#pkg-examples)
+- [Vertex AI](https://cloud.google.com/vertex-ai?hl=en)
+- [Duet AI](https://cloud.google.com/duet-ai?hl=en)
+- [Bard](https://bard.google.com/chat)
 
 
 Do you want to contribute?
